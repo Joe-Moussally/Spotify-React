@@ -1,9 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import ArtistCard from "../components/ArtistCard";
 import SearchBar from "../components/SearchBar"
 
 function SearchPage() {
+
+    // Search result array
+    const [responseArray,setResponseArray] = useState([]);
 
     let token;
     let searchUrl = 'https://api.spotify.com/v1/search?';
@@ -37,7 +40,8 @@ function SearchPage() {
             },
             url:urlSearch
         }).then((response) => {
-            console.log(response.data)
+            setResponseArray(response.data.artists.items)
+            console.log(response.data.artists.items)
         })
     }
 
@@ -48,7 +52,24 @@ function SearchPage() {
 
         {/* Search result container */}
         <div className="p-5 flex flex-wrap justify-center gap-5">
-            <ArtistCard />
+            {
+                responseArray.length?
+                <>
+                    {
+                        responseArray.map(item => (
+                            <ArtistCard
+                                artistName={item.name}
+                                imageUrl={
+                                    (item.images.length !== 0)?
+                                    item.images[0].url:
+                                    'https://static.thenounproject.com/png/3580649-200.png'
+                                }
+                                followersCount={item.followers.total}
+                            />
+                        ))
+                    }
+                </>:<></>
+            }
         </div>
     </>
   )
