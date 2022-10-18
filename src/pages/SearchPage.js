@@ -8,6 +8,9 @@ function SearchPage() {
     // Search result array
     const [responseArray,setResponseArray] = useState([]);
 
+    //track user's search input
+    const [searchInput,setSearchInput] = useState('')
+
     let token;
     let searchUrl = 'https://api.spotify.com/v1/search?';
     let type = 'type=artist'
@@ -30,9 +33,9 @@ function SearchPage() {
     },[])
 
     //function to fetch the artists in search
-    const searchArtists = (searchInput) => {
+    const searchArtists = (query) => {
 
-        let urlSearch = searchUrl+type+'&q=maroon'
+        let urlSearch = searchUrl+type+'&q='+query
         axios({
             method:'GET',
             headers:{
@@ -65,6 +68,7 @@ function SearchPage() {
                                     'https://static.thenounproject.com/png/3580649-200.png'
                                 }
                                 followersCount={item.followers.total}
+                                popularity={item.popularity}
                             />
                         ))
                     }
