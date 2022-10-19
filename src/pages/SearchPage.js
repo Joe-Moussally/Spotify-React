@@ -1,13 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
 import ArtistCard from "../components/ArtistCard";
 import SearchBar from "../components/SearchBar"
-import { getToken, setToken } from "../features/token/tokenSlice";
 
 function SearchPage() {
-
-    const dispatch = useDispatch();
 
     // Search result array
     const [responseArray,setResponseArray] = useState([]);
@@ -21,9 +17,11 @@ function SearchPage() {
     let type = 'type=artist'
 
     useEffect(() => {
-        console.log(token)
 
-        // if(token !==null) return
+        if(token == null) {
+            window.location.pathname = '/login'
+        }
+        
 
         //get the user's access token when redirected to search artist page
         let url = window.location.href;
@@ -66,6 +64,10 @@ function SearchPage() {
 
   return (
     <>
+        <img
+            className="absolute top-0"
+            src="https://blog.getsocial.io/wp-content/uploads/2015/08/open_graph_facebook-940x510.png"
+        />
         {/* Search artist input */}
         <SearchBar setSearchInput={setSearchInput}/>
 

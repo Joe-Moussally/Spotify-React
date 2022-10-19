@@ -1,9 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import AlbumCard from '../components/AlbumCard';
-import { getToken } from '../features/token/tokenSlice';
+import { BiArrowBack } from 'react-icons/bi'
 
 function ArtistPage() {
 
@@ -13,7 +12,7 @@ function ArtistPage() {
     const token = localStorage.getItem('token');
 
     //track the artis's spotify id
-    const [artistId ,setArtistId] = useState(params.artistId);
+    let artistId = params.artistId;
 
     //track the artit's albums
     const [albums,setAlbums] = useState([]);
@@ -37,10 +36,19 @@ function ArtistPage() {
     <div className='p-10'>
         
       {/* artist name title */}
-      <div className='text-gray-700 text-6xl font-bold pb-5'>{localStorage.getItem('artist')}</div>
+      
+      <div className='flex items-center '>
+        <BiArrowBack
+          size={45}
+          className='text-gray-500 mb-2 mr-10 hover:cursor-pointer hover:border-2 rounded-full transition-all duration-300'
+          onClick={() => window.history.back()}
+        />
+        <div className='text-gray-700 text-6xl font-bold pb-5'>{localStorage.getItem('artist')}</div>
+      </div>
+
       <span className='text-4xl text-gray-500 p-5'>{albums.length} Albums</span>
 
-      <div className='flex flex-wrap justify-center gap-5'>
+      <div className='mt-14 flex flex-wrap justify-center gap-5'>
         {
           albums.map((album) => (
             <AlbumCard
