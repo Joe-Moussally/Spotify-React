@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AiFillStar,AiOutlineStar } from 'react-icons/ai'
 
-function ArtistCard({artistName,followersCount, imageUrl, popularity }) {
+function ArtistCard({ artistId ,artistName,followersCount, imageUrl, popularity }) {
 
     //track stars count state
     const [starsCount,setStarsCount] = useState((5*popularity/100).toFixed(0))
@@ -11,7 +11,10 @@ function ArtistCard({artistName,followersCount, imageUrl, popularity }) {
     },[])
 
   return (
-    <div className='pl-[-10px] w-[200px] border-2 border-gray-400 rounded-sm hover:cursor-pointer hover:shadow-md transition-shadow'>
+    <div
+        className='pl-[-10px] w-[200px] border-[1.7px] border-gray-200 rounded-sm hover:cursor-pointer hover:shadow-md transition-shadow'
+        onClick={() => {window.location.pathname = 'artists/'+artistId}}    
+    >
 
         {/* Artist image */}
         <img

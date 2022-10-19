@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import ArtistCard from "../components/ArtistCard";
 import SearchBar from "../components/SearchBar"
+import { getToken, setToken } from "../features/token/tokenSlice";
 
 function SearchPage() {
+
+    const dispatch = useDispatch();
 
     // Search result array
     const [responseArray,setResponseArray] = useState([]);
@@ -11,7 +15,8 @@ function SearchPage() {
     //track user's search input
     const [searchInput,setSearchInput] = useState('')
 
-    let token;
+    const token = useSelector(getToken);
+
     let searchUrl = 'https://api.spotify.com/v1/search?';
     let type = 'type=artist'
 
@@ -25,16 +30,26 @@ function SearchPage() {
 
         for (let pair of queryString.entries()) {
             if(pair[0]==='access_token') {
-                token = pair[1]
+                dispatch(setToken({'token':pair[1]}))
+                console.log("ENTERED",pair[1])
+                console.log(token)
             }
         }
-
-        searchArtists()
     },[])
+
+    useEffect(() => {
+        searchArtists(searchInput)
+        console.log(token)
+    },[searchInput])
 
     //function to fetch the artists in search
     const searchArtists = (query) => {
+        // if search input is empty -> clear results array
+        if(query === '') {
+            setResponseArray([])
+        }
 
+        //building the GET api Url and storing the response array of artists
         let urlSearch = searchUrl+type+'&q='+query
         axios({
             method:'GET',
@@ -51,7 +66,7 @@ function SearchPage() {
   return (
     <>
         {/* Search artist input */}
-        <SearchBar />
+        <SearchBar setSearchInput={setSearchInput}/>
 
         {/* Search result container */}
         <div className="p-5 flex flex-wrap justify-center gap-5">
@@ -61,6 +76,7 @@ function SearchPage() {
                     {
                         responseArray.map(item => (
                             <ArtistCard
+                                artistId={item.id}
                                 artistName={item.name}
                                 imageUrl={
                                     (item.images.length !== 0)?
