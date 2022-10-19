@@ -15,12 +15,15 @@ function SearchPage() {
     //track user's search input
     const [searchInput,setSearchInput] = useState('')
 
-    const token = useSelector(getToken);
+    let token = localStorage.getItem('token');
 
     let searchUrl = 'https://api.spotify.com/v1/search?';
     let type = 'type=artist'
 
     useEffect(() => {
+        console.log(token)
+
+        // if(token !==null) return
 
         //get the user's access token when redirected to search artist page
         let url = window.location.href;
@@ -30,16 +33,14 @@ function SearchPage() {
 
         for (let pair of queryString.entries()) {
             if(pair[0]==='access_token') {
-                dispatch(setToken({'token':pair[1]}))
-                console.log("ENTERED",pair[1])
-                console.log(token)
+                // dispatch(setToken({'token':pair[1]}))
+                localStorage.setItem('token',pair[1])
             }
         }
     },[])
 
     useEffect(() => {
         searchArtists(searchInput)
-        console.log(token)
     },[searchInput])
 
     //function to fetch the artists in search
@@ -59,7 +60,7 @@ function SearchPage() {
             url:urlSearch
         }).then((response) => {
             setResponseArray(response.data.artists.items)
-            console.log(response.data.artists.items)
+            // console.log(response.data.artists.items)
         })
     }
 

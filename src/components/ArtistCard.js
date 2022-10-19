@@ -13,7 +13,13 @@ function ArtistCard({ artistId ,artistName,followersCount, imageUrl, popularity 
   return (
     <div
         className='pl-[-10px] w-[200px] border-[1.7px] border-gray-200 rounded-sm hover:cursor-pointer hover:shadow-md transition-shadow'
-        onClick={() => {window.location.pathname = 'artists/'+artistId}}    
+        onClick={() => {
+            // save the artist's name in local storage to pase to the next page
+            localStorage.setItem('artist',artistName)
+
+            //go to artist's album screen
+            window.location.pathname = 'artists/'+artistId
+        }}    
     >
 
         {/* Artist image */}
