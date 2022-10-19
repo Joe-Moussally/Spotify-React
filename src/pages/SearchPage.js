@@ -65,14 +65,14 @@ function SearchPage() {
   return (
     <>
         <img
-            className="absolute top-0"
-            src="https://blog.getsocial.io/wp-content/uploads/2015/08/open_graph_facebook-940x510.png"
+            className="absolute top-0 h-[500px] w-[100%] object-cover"
+            src="https://wallpapers.com/images/hd/spotify-music-art-1u0fe6tphui1pioz.jpg"
         />
         {/* Search artist input */}
         <SearchBar setSearchInput={setSearchInput}/>
 
         {/* Search result container */}
-        <div className="p-5 flex flex-wrap justify-center gap-5">
+        <div className="p-5 mt-[300px] flex flex-wrap justify-center gap-5">
             {
                 responseArray.length?
                 <>
