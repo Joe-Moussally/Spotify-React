@@ -79,6 +79,7 @@ function SearchPage() {
                     {
                         responseArray.map(item => (
                             <ArtistCard
+                                key={item.id}
                                 artistId={item.id}
                                 artistName={item.name}
                                 imageUrl={
