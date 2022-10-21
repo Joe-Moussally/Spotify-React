@@ -18,7 +18,7 @@ function SearchPage() {
 
     useEffect(() => {
 
-        if(token == null) {
+        if(token == null || typeof token == 'undefined') {
             window.location.pathname = '/login'
         }
         
@@ -46,6 +46,7 @@ function SearchPage() {
         // if search input is empty -> clear results array
         if(query === '') {
             setResponseArray([])
+            return
         }
 
         //building the GET api Url and storing the response array of artists
