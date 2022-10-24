@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import ArtistCard from "../components/ArtistCard";
-import SearchBar from "../components/SearchBar"
+import SearchBar from "../components/SearchBar";
+
+//debounce timer
+let timer
 
 function SearchPage() {
 
@@ -38,7 +41,13 @@ function SearchPage() {
     },[])
 
     useEffect(() => {
-        searchArtists(searchInput)
+        //debounce effect for search
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            //call the search function
+            searchArtists(searchInput)
+        },600)
+        
     },[searchInput])
 
     //function to fetch the artists in search
@@ -48,7 +57,7 @@ function SearchPage() {
             setResponseArray([])
             return
         }
-
+        console.log(token)
         //building the GET api Url and storing the response array of artists
         let urlSearch = searchUrl+type+'&q='+query
         axios({
